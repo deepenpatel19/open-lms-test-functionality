@@ -1,0 +1,9 @@
+BEGIN;
+
+DROP TABLE IF EXISTS test_question_submissions;
+DROP TABLE IF EXISTS test_questions;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS tests;
+DROP TABLE IF EXISTS users;
+
+COMMIT;

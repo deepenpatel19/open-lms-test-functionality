@@ -6,13 +6,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/open-lms-test-functionality/core"
 	"github.com/open-lms-test-functionality/logger"
+	"github.com/open-lms-test-functionality/models"
 	"github.com/open-lms-test-functionality/utils"
 	"go.uber.org/zap"
 )
 
 func main() {
-	core.ReadEnvFile()  // Configure ENV File
-	logger.LoggerInit() // Configure Logger
+	core.ReadEnvFile()        // Configure ENV File
+	logger.LoggerInit()       // Configure Logger
+	models.RunMigrations()    // Run migrations to sync db schema related changes
+	models.CreateConnection() // Create DB connection pool
 
 	r := gin.New()
 	r.GET("/health", func(c *gin.Context) {
