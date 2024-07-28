@@ -1,4 +1,4 @@
-package schemas
+package models
 
 type TestCreateSchema struct {
 	Title string `json:"title"`

@@ -1,4 +1,4 @@
-package schemas
+package models
 
 type TestQuestionsSchema struct {
 	Id           int64                             `json:"id"`

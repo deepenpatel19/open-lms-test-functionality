@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/open-lms-test-functionality/api"
 	"github.com/open-lms-test-functionality/core"
 	"github.com/open-lms-test-functionality/logger"
 	"github.com/open-lms-test-functionality/models"
@@ -25,6 +26,8 @@ func main() {
 			"message": "OK",
 		})
 	})
+
+	r.POST("/user", api.CreateUser)
 
 	// Starting server
 	if err := r.Run(":8000"); err != nil {
