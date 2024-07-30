@@ -45,7 +45,7 @@ func CreateConnection() {
 	DBPoolConnection = dbpool
 }
 
-func PoolConnection() *pgxpool.Pool {
+func DbPool() *pgxpool.Pool {
 	return DBPoolConnection
 }
 

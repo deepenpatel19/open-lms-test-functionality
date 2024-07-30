@@ -10,7 +10,8 @@ type DBConfig struct {
 }
 
 type ProjectConfiguration struct {
-	Environment string   `json:"environment"`
-	DBConfig    DBConfig `json:"database"`
-	DBString    string   `json:"database_string,omitempty"`
+	Environment      string   `json:"environment"`
+	DBConfig         DBConfig `json:"database"`
+	DBString         string   `json:"database_string,omitempty"`
+	PasswordHashCost int      `json:"password_hash_cost"`
 }
