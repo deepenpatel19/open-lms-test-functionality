@@ -71,6 +71,23 @@ func main() {
 	auth.PUT("/test/:testId", api.UpdateTest)
 	auth.DELETE("/test/:testId", api.DeleteTest)
 
+	// Question APIs
+	auth.GET("/questions", api.FetchQuestions)
+	auth.GET("/question/:questionId", api.FetchQuestion)
+	auth.POST("/question", api.CreateQuestion)
+	auth.PUT("/question/:questionId", api.UpdateQuestion)
+	auth.DELETE("/question/:questionId", api.DeleteQuestion)
+
+	// Test questionary APIs
+	auth.GET("test/:testId/questions", api.FetchTestQuestionary)
+	auth.POST("test/:testId/generate_questionary", api.CreateTestQuestionary)
+	auth.PUT("test/:testId/question/:questionId/add_question", api.AddTestQuestion)
+	auth.DELETE("test/:testId/test_questionary/:testQuestionaryId", api.DeleteTestQuestion)
+
+	// Test question submission APIs
+	auth.PUT("test/:testId/test_questionary/:testQuestionary/question/:questionId", api.SubmitTestQuestionSubmission)
+	auth.GET("test/:testId/test_questionary/:testQuestionary/submissions", api.FetchTestQuestionSubmissions)
+
 	// Starting server
 	if err := r.Run(":8000"); err != nil {
 		logger.Logger.Fatal("Failed to start the server:", zap.Error(err))

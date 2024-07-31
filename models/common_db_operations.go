@@ -10,7 +10,8 @@ import (
 )
 
 type QueryStructToExecute struct {
-	Query string
+	Query     string
+	QueryList []string
 }
 
 func (query QueryStructToExecute) InsertOrUpdateOperations(uuidString string, args ...any) (int64, error) {
@@ -68,4 +69,40 @@ func (query QueryStructToExecute) DeleteOperation(uuidString string) (bool, erro
 	}()
 	tx.Exec(ctx, query.Query)
 	return true, nil
+}
+
+func (query QueryStructToExecute) InsertOrUpdateMultipleQueries(uuidString string) (int64, error) {
+	logger.Logger.Info("MODELS :: Will do insert/update multiple operations", zap.String("requestId", uuidString))
+
+	var id int64
+	dbConnection := DbPool()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	tx, err := dbConnection.BeginTx(ctx, pgx.TxOptions{AccessMode: pgx.ReadWrite})
+	if err != nil {
+		logger.Logger.Error("MODELS :: Error while begin transaction", zap.Error(err), zap.String("requestId", uuidString))
+		return id, err
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback(ctx)
+		} else {
+			tx.Commit(ctx)
+		}
+	}()
+
+	for _, singleQuery := range query.QueryList {
+		err = tx.QueryRow(ctx, singleQuery).Scan(&id)
+		if err != nil {
+			logger.Logger.Error("MODELS :: Error while executing query.",
+				zap.String("requestId", uuidString),
+				zap.Error(err),
+			)
+			return id, err
+		}
+	}
+
+	return id, nil
 }

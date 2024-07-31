@@ -35,9 +35,10 @@ func (data TestCreateSchema) Update(uuidString string, testId int64) (int64, err
 	query := `UPDATE
 				tests
 					set title=$1
+				WHERE id=$2
 				RETURNING id`
 	queryToExecute := QueryStructToExecute{Query: query}
-	id, err := queryToExecute.InsertOrUpdateOperations(uuidString, data.Title)
+	id, err := queryToExecute.InsertOrUpdateOperations(uuidString, data.Title, testId)
 	return id, err
 }
 
