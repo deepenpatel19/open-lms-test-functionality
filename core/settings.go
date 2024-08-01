@@ -24,8 +24,8 @@ func ReadEnvFile() {
 		err := os.WriteFile(fileName, []byte(os.Getenv("DATA")), 0755)
 		if err != nil {
 			fmt.Println("unable to write file: %w", err)
+			os.Exit(1)
 		}
-		fmt.Println("production environment", os.Getenv("DATA"))
 	}
 
 	file, err := os.ReadFile(fileName)
@@ -48,7 +48,5 @@ func ReadEnvFile() {
 		Config.DBConfig.DBName,
 		Config.DBConfig.DBSSLMode,
 	)
-
-	fmt.Println(Config)
 
 }
