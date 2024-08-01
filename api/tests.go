@@ -22,6 +22,27 @@ func CreateTest(c *gin.Context) {
 		return
 	}
 
+	user, _ := c.Get("id")
+	userEmail := user.(*models.UserSchema).Email
+
+	userDataFromDb := models.FetchUserForAuth(userEmail)
+
+	userType, err := strconv.Atoi(userDataFromDb.Type)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": "something went wrong",
+		})
+		return
+	}
+
+	userTypeStr := models.ValidateUserType(userType)
+	if userTypeStr == "" || userTypeStr == "student" {
+		c.JSON(400, gin.H{
+			"message": "you're not allowed for this operation",
+		})
+		return
+	}
+
 	var testData models.TestCreateSchema
 	if err := c.Bind(&testData); err != nil {
 		logger.Logger.Error("API :: Error while binding request data with test create schema.",
@@ -59,6 +80,27 @@ func UpdateTest(c *gin.Context) {
 		return
 	}
 
+	user, _ := c.Get("id")
+	userEmail := user.(*models.UserSchema).Email
+
+	userDataFromDb := models.FetchUserForAuth(userEmail)
+
+	userType, err := strconv.Atoi(userDataFromDb.Type)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": "something went wrong",
+		})
+		return
+	}
+
+	userTypeStr := models.ValidateUserType(userType)
+	if userTypeStr == "" || userTypeStr == "student" {
+		c.JSON(400, gin.H{
+			"message": "you're not allowed for this operation",
+		})
+		return
+	}
+
 	var testData models.TestCreateSchema
 	if err := c.Bind(&testData); err != nil {
 		logger.Logger.Error("API :: Error while binding request data with test create schema.",
@@ -93,6 +135,27 @@ func DeleteTest(c *gin.Context) {
 	if err := c.ShouldBindUri(&uri); err != nil {
 		logger.Logger.Error("API :: Error while uri binding", zap.Error(err), zap.String("requestId", uuidString))
 		c.JSON(400, gin.H{"message": err})
+		return
+	}
+
+	user, _ := c.Get("id")
+	userEmail := user.(*models.UserSchema).Email
+
+	userDataFromDb := models.FetchUserForAuth(userEmail)
+
+	userType, err := strconv.Atoi(userDataFromDb.Type)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": "something went wrong",
+		})
+		return
+	}
+
+	userTypeStr := models.ValidateUserType(userType)
+	if userTypeStr == "" || userTypeStr == "student" {
+		c.JSON(400, gin.H{
+			"message": "you're not allowed for this operation",
+		})
 		return
 	}
 
