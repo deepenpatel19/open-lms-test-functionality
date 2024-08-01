@@ -83,7 +83,7 @@ func FetchTestQuestionaryForTeacher(uuidString string, testId int64, limit int, 
 							JOIN tests t on t.id = tq.test_id
 							JOIN questions q on q.id = tq.question_id
 							WHERE tq.test_id = %d
-							ORDER BY id DESC LIMIT %d OFFSET %d`, testId, limit, offset)
+							ORDER BY tq.id DESC LIMIT %d OFFSET %d`, testId, limit, offset)
 	logger.Logger.Info("MODELS :: Query", zap.String("query", query), zap.String("requestId", uuidString))
 
 	rows, err := tx.Query(ctx, query)
@@ -158,7 +158,7 @@ func FetchTestQuestionaryForStrudent(uuidString string, testId int64, limit int,
 							JOIN tests t on t.id = tq.test_id
 							JOIN questions q on q.id = tq.question_id
 							WHERE tq.test_id = %d
-							ORDER BY id DESC LIMIT %d OFFSET %d`, testId, limit, offset)
+							ORDER BY tq.id DESC LIMIT %d OFFSET %d`, testId, limit, offset)
 	logger.Logger.Info("MODELS :: Query", zap.String("query", query), zap.String("requestId", uuidString))
 
 	rows, err := tx.Query(ctx, query)

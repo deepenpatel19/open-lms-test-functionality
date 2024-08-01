@@ -136,7 +136,7 @@ func FetchQuestion(uuidString string, questionId int64) (QuestionResponseSchema,
 							q.question_data,
 							q.answer_data
 							FROM questions q
-							WHERE t.id=%d LIMIT 1`, questionId)
+							WHERE q.id=%d LIMIT 1`, questionId)
 	logger.Logger.Info("MODELS :: Query", zap.String("query", query), zap.String("requestId", uuidString))
 	err = tx.QueryRow(ctx, query).Scan(
 		&questionData.Id,

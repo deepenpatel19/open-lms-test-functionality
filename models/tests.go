@@ -139,6 +139,7 @@ func FetchTests(uuidString string, limit int, offset int) ([]TestResponseSchema,
 		err := rows.Scan(
 			&singleTestData.Id,
 			&singleTestData.Title,
+			&count,
 		)
 		if err != nil {
 			logger.Logger.Error("MODELS :: Error while iterating rows", zap.String("requestId", uuidString), zap.Error(err))

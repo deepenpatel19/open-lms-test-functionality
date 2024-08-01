@@ -79,14 +79,14 @@ func main() {
 	auth.DELETE("/question/:questionId", api.DeleteQuestion)
 
 	// Test questionary APIs
-	auth.GET("test/:testId/questions", api.FetchTestQuestionary)
-	auth.POST("test/:testId/generate_questionary", api.CreateTestQuestionary)
-	auth.PUT("test/:testId/question/:questionId/add_question", api.AddTestQuestion)
-	auth.DELETE("test/:testId/question/:questionId", api.DeleteTestQuestion)
+	auth.GET("/test/:testId/questions", api.FetchTestQuestionary)
+	auth.POST("/test/:testId/generate_questionary", api.CreateTestQuestionary)
+	auth.PUT("/test/:testId/question/:questionId/add_question", api.AddTestQuestion)
+	auth.DELETE("/test/:testId/question/:questionId", api.DeleteTestQuestion)
 
 	// Test question submission APIs
-	auth.PUT("test/:testId/question/:questionId", api.SubmitTestQuestionSubmission)
-	auth.GET("test/:testId/submissions", api.FetchTestQuestionSubmissions)
+	auth.PUT("/test/:testId/question/:questionId", api.SubmitTestQuestionSubmission)
+	auth.GET("/test/:testId/submissions", api.GetTestQuestionSubmissions)
 
 	// Starting server
 	if err := r.Run(":8000"); err != nil {
