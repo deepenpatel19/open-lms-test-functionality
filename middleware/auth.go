@@ -6,6 +6,7 @@ import (
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/open-lms-test-functionality/core"
 	"github.com/open-lms-test-functionality/logger"
 	"github.com/open-lms-test-functionality/models"
 	"go.uber.org/zap"
@@ -86,10 +87,10 @@ func unauthorized() func(c *gin.Context, code int, message string) {
 
 func GetAuthMiddleware() (*jwt.GinJWTMiddleware, error) {
 	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:       "test zone",
-		Key:         []byte("secret key"),
-		Timeout:     time.Hour,
-		MaxRefresh:  time.Hour,
+		Realm:       core.Config.AuthRealm,
+		Key:         []byte(core.Config.AuthSecretKey),
+		Timeout:     12 * time.Hour,
+		MaxRefresh:  12 * time.Hour,
 		IdentityKey: identityKey,
 		PayloadFunc: payloadFunc(),
 

@@ -14,4 +14,6 @@ type ProjectConfiguration struct {
 	DBConfig         DBConfig `json:"database"`
 	DBString         string   `json:"database_string,omitempty"`
 	PasswordHashCost int      `json:"password_hash_cost"`
+	AuthRealm        string   `json:"auth_realm"`
+	AuthSecretKey    string   `json:"auth_secret_key"`
 }
