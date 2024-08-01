@@ -82,11 +82,11 @@ func main() {
 	auth.GET("test/:testId/questions", api.FetchTestQuestionary)
 	auth.POST("test/:testId/generate_questionary", api.CreateTestQuestionary)
 	auth.PUT("test/:testId/question/:questionId/add_question", api.AddTestQuestion)
-	auth.DELETE("test/:testId/test_questionary/:testQuestionaryId", api.DeleteTestQuestion)
+	auth.DELETE("test/:testId/question/:questionId", api.DeleteTestQuestion)
 
 	// Test question submission APIs
-	auth.PUT("test/:testId/test_questionary/:testQuestionary/question/:questionId", api.SubmitTestQuestionSubmission)
-	auth.GET("test/:testId/test_questionary/:testQuestionary/submissions", api.FetchTestQuestionSubmissions)
+	auth.PUT("test/:testId/question/:questionId", api.SubmitTestQuestionSubmission)
+	auth.GET("test/:testId/submissions", api.FetchTestQuestionSubmissions)
 
 	// Starting server
 	if err := r.Run(":8000"); err != nil {

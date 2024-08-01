@@ -42,8 +42,8 @@ func CreateTestQuestionary(uuidString string, testId int64, questionIds []int64)
 
 }
 
-func DeleteTestQuestionary(uuidString string, testQuestionaryId int64) (bool, error) {
-	query := fmt.Sprintf(`DELETE FROM test_questions WHERE id = %d`, testQuestionaryId)
+func DeleteTestQuestionary(uuidString string, testId int64, questionId int64) (bool, error) {
+	query := fmt.Sprintf(`DELETE FROM test_questions WHERE test_id = %d AND question_id = %d`, testId, questionId)
 	queryToExecute := QueryStructToExecute{Query: query}
 	status, err := queryToExecute.DeleteOperation(uuidString)
 	return status, err

@@ -154,7 +154,7 @@ func DeleteTestQuestion(c *gin.Context) {
 		return
 	}
 
-	status, err := models.DeleteTestQuestionary(uuidString, uri.TestQuestionaryId)
+	status, err := models.DeleteTestQuestionary(uuidString, uri.TestId, uri.QuestionId)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"message": "something went wrong",
