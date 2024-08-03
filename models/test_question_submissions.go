@@ -168,10 +168,21 @@ func CreateOrUpdateTestQuestionSubmission(uuidString string, testId int64, userI
 
 	err = tx.QueryRow(ctx, selectTestQuestionSubmissionQuery).Scan(&id)
 	if err != nil {
-		logger.Logger.Error("MODELS :: Error while executing query.",
-			zap.String("requestId", uuidString),
-			zap.Error(err),
-		)
+		if err == pgx.ErrNoRows {
+			logger.Logger.Info("MODELS :: Query - No rows found. ", zap.String("query", selectTestQuestionSubmissionQuery))
+		} else {
+			logger.Logger.Error("MODELS :: Error while executing query.",
+				zap.String("requestId", uuidString),
+				zap.Error(err),
+			)
+			return id, err
+		}
+
+	}
+
+	answerDatJson, err := json.Marshal(answerData)
+	if err != nil {
+		logger.Logger.Error("MODELS :: Error while json marshalling of answer data", zap.String("requestId", uuidString), zap.Error(err))
 		return id, err
 	}
 
@@ -180,15 +191,15 @@ func CreateOrUpdateTestQuestionSubmission(uuidString string, testId int64, userI
 													test_question_submissions
 												SET submitted_data='%s', answer_status=%t
 												WHERE test_id = %d AND user_id = %d AND question_id = %d
-												`, answerData, answerStatus, testId, userId, questionId)
+												RETURNING id`, answerDatJson, answerStatus, testId, userId, questionId)
 
 	} else {
 		testQuestionSubmissionQuery = fmt.Sprintf(`INSERT INTO
 													test_question_submissions
 														(test_id, user_id, question_id, submitted_data, answer_status)
 													VALUES
-														(%d, %d, %d, '%s', %t)`,
-			testId, userId, questionId, answerData, answerStatus)
+														(%d, %d, %d, '%s', %t) RETURNING id`,
+			testId, userId, questionId, answerDatJson, answerStatus)
 	}
 
 	err = tx.QueryRow(ctx, testQuestionSubmissionQuery).Scan(&id)
@@ -196,6 +207,8 @@ func CreateOrUpdateTestQuestionSubmission(uuidString string, testId int64, userI
 		logger.Logger.Error("MODELS :: Error while executing query.",
 			zap.String("requestId", uuidString),
 			zap.Error(err),
+			zap.Any("query", testQuestionSubmissionQuery),
+			zap.Any("answerData", answerData),
 		)
 		return id, err
 	}
