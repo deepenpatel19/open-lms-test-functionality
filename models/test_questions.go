@@ -33,7 +33,7 @@ func CreateTestQuestionary(uuidString string, testId int64, questionIds []int64)
 				test_questions
 					(test_id, question_id)
 				VALUES
-					(%d, %d)`, testId, questionId)
+					(%d, %d) RETURNING id`, testId, questionId)
 		listOfQuestions = append(listOfQuestions, query)
 	}
 	queryToExecute := QueryStructToExecute{QueryList: listOfQuestions}
