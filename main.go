@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"os"
+	"time"
 
 	// JWT
 	jwt "github.com/appleboy/gin-jwt/v2"
@@ -38,6 +39,9 @@ func main() {
 	}
 
 	r := gin.New()
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
+	r.Use(middleware.Timeout(60*time.Second, middleware.NewServiceUnavailable()))
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "OK",
