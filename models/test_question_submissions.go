@@ -56,7 +56,7 @@ func FetchTestQuestionSubmissions(uuidString string, testId int64, userId int64,
 							FROM test_question_submissions tq
 							JOIN questions q on q.id = tq.question_id
 							WHERE tq.test_id = %d AND tq.user_id = %d
-							ORDER BY id DESC LIMIT %d OFFSET %d`, testId, userId, limit, offset)
+							ORDER BY tq.id DESC LIMIT %d OFFSET %d`, testId, userId, limit, offset)
 	logger.Logger.Info("MODELS :: Query", zap.String("query", query), zap.String("requestId", uuidString))
 
 	rows, err := tx.Query(ctx, query)
