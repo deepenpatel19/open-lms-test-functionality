@@ -157,7 +157,7 @@ func FetchQuestion(uuidString string, questionId int64) (QuestionResponseSchema,
 	return questionData, nil
 }
 
-func FetchQuestions(uuidString string, limit int, offset int) ([]QuestionResponseSchema, int, error) {
+func FetchQuestions(uuidString string, limit int, offset int, random bool) ([]QuestionResponseSchema, int, error) {
 	logger.Logger.Info("MODELS :: Will fetch tests ", zap.String("requestId", uuidString))
 
 	var questionsData []QuestionResponseSchema
@@ -178,8 +178,19 @@ func FetchQuestions(uuidString string, limit int, offset int) ([]QuestionRespons
 			tx.Commit(ctx)
 		}
 	}()
+	var query string
 
-	query := fmt.Sprintf(`SELECT
+	if random {
+		query = fmt.Sprintf(`SELECT
+		q.id,
+		q.type,
+		q.question_data,
+		q.answer_data,
+		COUNT(*) OVER() AS total
+		FROM questions q
+		ORDER BY RANDOM() LIMIT %d OFFSET %d`, limit, offset)
+	} else {
+		query = fmt.Sprintf(`SELECT
 							q.id,
 							q.type,
 							q.question_data,
@@ -187,6 +198,8 @@ func FetchQuestions(uuidString string, limit int, offset int) ([]QuestionRespons
 							COUNT(*) OVER() AS total
 							FROM questions q
 							ORDER BY id DESC LIMIT %d OFFSET %d`, limit, offset)
+	}
+
 	logger.Logger.Info("MODELS :: Query", zap.String("query", query), zap.String("requestId", uuidString))
 
 	rows, err := tx.Query(ctx, query)

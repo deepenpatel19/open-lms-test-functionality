@@ -271,7 +271,7 @@ func FetchQuestions(c *gin.Context) {
 		limit = 10
 	}
 
-	testData, count, err := models.FetchQuestions(uuidString, limit, offset)
+	testData, count, err := models.FetchQuestions(uuidString, limit, offset, false)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "something went wrong",

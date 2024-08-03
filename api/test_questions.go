@@ -43,7 +43,7 @@ func CreateTestQuestionary(c *gin.Context) {
 		return
 	}
 
-	allQuestions, count, err := models.FetchQuestions(uuidString, 50, 0)
+	allQuestions, count, err := models.FetchQuestions(uuidString, 50, 0, true)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"message": "something went wrong",
