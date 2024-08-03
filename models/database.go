@@ -33,8 +33,8 @@ func CreateConnection() {
 	connConf.MaxConnIdleTime = 600 * time.Second
 	connConf.HealthCheckPeriod = 15 * time.Second
 	connConf.MaxConnLifetime = 1800 * time.Second
-	connConf.MinConns = 7
-	connConf.MaxConns = 40
+	connConf.MinConns = 20
+	connConf.MaxConns = 100
 	connConf.ConnConfig.DefaultQueryExecMode = pgx.QueryExecModeSimpleProtocol // For pgbouncer
 	connConf.ConnConfig.DescriptionCacheCapacity = 1024                        // For pgbouncer
 
