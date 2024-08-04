@@ -30,9 +30,9 @@ func CreateConnection() {
 	if err != nil {
 		logger.Logger.Error("DATABASE :: Could not able to parse db config.", zap.Error(err))
 	}
-	connConf.MaxConnIdleTime = 600 * time.Second
-	connConf.HealthCheckPeriod = 15 * time.Second
-	connConf.MaxConnLifetime = 1800 * time.Second
+	connConf.MaxConnIdleTime = 30 * time.Second
+	connConf.HealthCheckPeriod = 5 * time.Second
+	connConf.MaxConnLifetime = 300 * time.Second
 	connConf.MinConns = 20
 	connConf.MaxConns = 100
 	connConf.ConnConfig.DefaultQueryExecMode = pgx.QueryExecModeSimpleProtocol // For pgbouncer

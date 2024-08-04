@@ -96,8 +96,9 @@ func FetchUserForAuth(email string) UserSchema {
 
 	var userData UserSchema
 	dbConnection := DbPool()
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
+	// ctx := context.Background()
 
 	tx, err := dbConnection.BeginTx(ctx, pgx.TxOptions{AccessMode: pgx.ReadOnly})
 	if err != nil {

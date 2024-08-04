@@ -55,8 +55,9 @@ func FetchTestQuestionaryForTeacher(uuidString string, testId int64, limit int, 
 	var data []TestQuestionsSchema
 	var count int
 	dbConnection := DbPool()
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
+	// ctx := context.Background()
 
 	tx, err := dbConnection.BeginTx(ctx, pgx.TxOptions{AccessMode: pgx.ReadOnly})
 	if err != nil {
@@ -131,8 +132,9 @@ func FetchTestQuestionaryForStrudent(uuidString string, testId int64, limit int,
 	var data []TestQuestionSchemaForTakeTest
 	var count int
 	dbConnection := DbPool()
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
+	// ctx := context.Background()
 
 	tx, err := dbConnection.BeginTx(ctx, pgx.TxOptions{AccessMode: pgx.ReadOnly})
 	if err != nil {
