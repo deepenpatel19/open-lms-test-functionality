@@ -9,7 +9,7 @@ Run `go install` in project directory.
 - `migrate` library for managing migrations.
 - Command to create migration : `migrate create -ext sql -dir migrations -seq -digits 6 <migration_name>`. This command will generate migrations in `migrations` directory.
 
-#### Functionalies
+#### Features
 - Teacher / Student registration.
 - Token generation for auth routes.
 - Test and question creation.
